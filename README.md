@@ -2,6 +2,16 @@
 
 Owner: **Aurore017**
 
+## Demo video
+
+https://drive.google.com/file/d/1NS1uisGTMwrkR1eyFpFxieWfEfr8LLOD/view?usp=sharing
+
+
+## Website link 
+
+https://aurore017.github.io/student-finance-tracker/
+
+
 GlowBudget Journal is a simple student finance tracker that helps you record spending, search records quickly, and see useful totals.
 
 ---
@@ -122,9 +132,6 @@ to load sample records.
 - JavaScript  
 
 ---
-## Demo video
-
-https://drive.google.com/file/d/1NS1uisGTMwrkR1eyFpFxieWfEfr8LLOD/view?usp=sharing
 
 ## Contact
 
@@ -136,7 +143,3 @@ Email: a.irakarama1@alustudent.com
 ## Notes
 
 This project was built as part of a responsive UI assignment demonstrating accessibility, validation, persistence, and user-friendly design.
-
-## website link 
-
-https://aurore017.github.io/student-finance-tracker/
