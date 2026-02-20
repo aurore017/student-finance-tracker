@@ -1,12 +1,102 @@
 [
-  {"id":"1","description":"Lunch","amount":12.5,"category":"Food","date":"2025-09-01","createdAt":"2025","updatedAt":"2025"},
-  {"id":"2","description":"Book","amount":30,"category":"Books","date":"2025-09-02","createdAt":"2025","updatedAt":"2025"},
-  {"id":"3","description":"Bus","amount":10,"category":"Transport","date":"2025-09-03","createdAt":"2025","updatedAt":"2025"},
-  {"id":"4","description":"Coffee","amount":5,"category":"Food","date":"2025-09-04","createdAt":"2025","updatedAt":"2025"},
-  {"id":"5","description":"Movie","amount":15,"category":"Entertainment","date":"2025-09-05","createdAt":"2025","updatedAt":"2025"},
-  {"id":"6","description":"Fees","amount":200,"category":"Fees","date":"2025-09-06","createdAt":"2025","updatedAt":"2025"},
-  {"id":"7","description":"Snacks","amount":4,"category":"Food","date":"2025-09-07","createdAt":"2025","updatedAt":"2025"},
-  {"id":"8","description":"Notebook","amount":8,"category":"Books","date":"2025-09-08","createdAt":"2025","updatedAt":"2025"},
-  {"id":"9","description":"Taxi","amount":18,"category":"Transport","date":"2025-09-09","createdAt":"2025","updatedAt":"2025"},
-  {"id":"10","description":"Print","amount":2,"category":"Other","date":"2025-09-10","createdAt":"2025","updatedAt":"2025"}
+  {
+    "id": "txn_000000001",
+    "description": "Lunch at cafeteria",
+    "amount": 6500,
+    "category": "Food",
+    "date": "2026-02-20",
+    "notes": "rice and beans",
+    "createdAt": "2026-02-20T07:10:00.000Z",
+    "updatedAt": "2026-02-20T07:10:00.000Z"
+  },
+  {
+    "id": "txn_000000002",
+    "description": "Bus pass",
+    "amount": 12000,
+    "category": "Transport",
+    "date": "2026-02-19",
+    "notes": "weekly card",
+    "createdAt": "2026-02-19T07:10:00.000Z",
+    "updatedAt": "2026-02-19T07:10:00.000Z"
+  },
+  {
+    "id": "txn_000000003",
+    "description": "Coffee with friends",
+    "amount": 2500,
+    "category": "Entertainment",
+    "date": "2026-02-18",
+    "notes": "coffee coffee",
+    "createdAt": "2026-02-18T07:10:00.000Z",
+    "updatedAt": "2026-02-18T07:10:00.000Z"
+  },
+  {
+    "id": "txn_000000004",
+    "description": "Chemistry textbook",
+    "amount": 35000,
+    "category": "Books",
+    "date": "2026-02-17",
+    "notes": "used copy",
+    "createdAt": "2026-02-17T07:10:00.000Z",
+    "updatedAt": "2026-02-17T07:10:00.000Z"
+  },
+  {
+    "id": "txn_000000005",
+    "description": "Printing fees",
+    "amount": 1500,
+    "category": "Fees",
+    "date": "2026-02-16",
+    "notes": "assignment print",
+    "createdAt": "2026-02-16T07:10:00.000Z",
+    "updatedAt": "2026-02-16T07:10:00.000Z"
+  },
+  {
+    "id": "txn_000000006",
+    "description": "Snack at kiosk",
+    "amount": 800,
+    "category": "Food",
+    "date": "2026-02-15",
+    "notes": "small bite",
+    "createdAt": "2026-02-15T07:10:00.000Z",
+    "updatedAt": "2026-02-15T07:10:00.000Z"
+  },
+  {
+    "id": "txn_000000007",
+    "description": "Phone airtime",
+    "amount": 2000,
+    "category": "Other",
+    "date": "2026-02-14",
+    "notes": "top up",
+    "createdAt": "2026-02-14T07:10:00.000Z",
+    "updatedAt": "2026-02-14T07:10:00.000Z"
+  },
+  {
+    "id": "txn_000000008",
+    "description": "Tea after class",
+    "amount": 1200,
+    "category": "Food",
+    "date": "2026-02-13",
+    "notes": "tea",
+    "createdAt": "2026-02-13T07:10:00.000Z",
+    "updatedAt": "2026-02-13T07:10:00.000Z"
+  },
+  {
+    "id": "txn_000000009",
+    "description": "Notebook set",
+    "amount": 6000,
+    "category": "Books",
+    "date": "2026-01-31",
+    "notes": "two notebooks",
+    "createdAt": "2026-01-31T07:10:00.000Z",
+    "updatedAt": "2026-01-31T07:10:00.000Z"
+  },
+  {
+    "id": "txn_000000010",
+    "description": "Taxi late night",
+    "amount": 18000,
+    "category": "Transport",
+    "date": "2026-01-02",
+    "notes": "rainy day",
+    "createdAt": "2026-01-02T07:10:00.000Z",
+    "updatedAt": "2026-01-02T07:10:00.000Z"
+  }
 ]

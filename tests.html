@@ -1,53 +1,64 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Regex Tests – Student Finance Tracker</title>
-  <link rel="stylesheet" href="styles/main.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GlowBudget Tests</title>
+  <style>
+    body{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif;margin:20px}
+    .ok{color:green}
+    .bad{color:#b00020}
+    code{background:#f5f5f5;padding:2px 6px;border-radius:6px}
+  </style>
 </head>
 <body>
+  <h1>Tests</h1>
+  <p>Open this page in the browser to see simple assertions.</p>
+  <ul id="out"></ul>
 
-<main class="tests">
-  <h1>Regex Validation Tests</h1>
+  <script type="module">
+    import { RX, validateRecordInput } from "./scripts/validators.js";
+    import { compileRegex } from "./scripts/search.js";
 
-  <button id="run-tests">Run Tests</button>
+    const out = document.getElementById("out");
+    const log = (name, pass) => {
+      const li = document.createElement("li");
+      li.className = pass ? "ok" : "bad";
+      li.textContent = `${pass ? "✔" : "✖"} ${name}`;
+      out.appendChild(li);
+    };
 
-  <ul id="results"></ul>
-</main>
+    // Regex validations
+    log("Description no leading/trailing spaces", RX.descNoEdgeSpaces.test("Lunch") && !RX.descNoEdgeSpaces.test(" Lunch"));
+    log("Amount format", RX.amount.test("12.50") && RX.amount.test("6500") && !RX.amount.test("12.500"));
+    log("Date format", RX.date.test("2026-02-20") && !RX.date.test("2026-13-40"));
+    log("Category format", RX.category.test("School Fees") && !RX.category.test("Fees!"));
 
-<script type="module">
-import { patterns } from "./scripts/validators.js";
+    // Advanced regex
+    log("Duplicate word back-reference", RX.dupWord.test("coffee coffee"));
 
-const tests = [
-  { name: "Valid description", value: "Lunch at school", rule: "description", expect: true },
-  { name: "Invalid description (spaces)", value: "  bad  ", rule: "description", expect: false },
+    // Safe regex compiler
+    log("Compile regex valid", !!compileRegex("(coffee|tea)", false));
+    log("Compile regex invalid returns null", compileRegex("(", false) === null);
 
-  { name: "Valid amount", value: "12.50", rule: "amount", expect: true },
-  { name: "Invalid amount letters", value: "12a", rule: "amount", expect: false },
+    // Full record validation
+    const good = validateRecordInput({
+      description:"Lunch at cafeteria",
+      amount:"6500",
+      date:"2026-02-20",
+      category:"Food",
+      notes:"ok"
+    });
+    log("Record validates ok", good.ok);
 
-  { name: "Valid date", value: "2025-09-29", rule: "date", expect: true },
-  { name: "Invalid date", value: "2025-99-99", rule: "date", expect: false },
-
-  { name: "Valid category", value: "School Fees", rule: "category", expect: true },
-  { name: "Invalid category number", value: "Food2", rule: "category", expect: false }
-];
-
-document.getElementById("run-tests").addEventListener("click", () => {
-  const list = document.getElementById("results");
-  list.innerHTML = "";
-
-  tests.forEach(t => {
-    const passed = patterns[t.rule].test(t.value) === t.expect;
-
-    const li = document.createElement("li");
-    li.textContent = `${passed ? "✅" : "❌"} ${t.name}`;
-    li.className = passed ? "pass" : "fail";
-
-    list.appendChild(li);
-  });
-});
-</script>
-
+    const bad = validateRecordInput({
+      description:" Lunch ",
+      amount:"12.500",
+      date:"2026-99-99",
+      category:"Food!",
+      notes:"coffee coffee"
+    });
+    log("Record validates bad", !bad.ok);
+  </script>
 </body>
 </html>

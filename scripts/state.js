@@ -1,13 +1,31 @@
-import { load, save } from "./storage.js";
+import { loadData, saveData, loadSettings, saveSettings } from "./storage.js";
 
-export let records = load();
+export const state = {
+  records: loadData(),
+  settings: loadSettings(),
+  ui: {
+    sort: "dateDesc",
+    categoryFilter: "All",
+    searchText: "",
+    searchCase: false
+  }
+};
 
-export function add(record) {
-  records.push(record);
-  save(records);
+export function commitRecords(nextRecords) {
+  state.records = nextRecords;
+  saveData(state.records);
 }
 
-export function remove(id) {
-  records = records.filter(r => r.id !== id);
-  save(records);
+export function commitSettings(nextSettings) {
+  state.settings = nextSettings;
+  saveSettings(state.settings);
+}
+
+export function uid(prefix = "txn") {
+  const n = Math.floor(Math.random() * 1e9).toString().padStart(9, "0");
+  return `${prefix}_${n}`;
+}
+
+export function nowISO() {
+  return new Date().toISOString();
 }

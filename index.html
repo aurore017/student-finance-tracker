@@ -1,83 +1,324 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" data-theme="light">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aurore – Student Finance Tracker</title>
-  <link rel="stylesheet" href="styles/main.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GlowBudget Journal</title>
+  <meta name="description" content="GlowBudget Journal — a simple student finance tracker." />
+  <link rel="stylesheet" href="styles/main.css" />
 </head>
 
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-<a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header" role="banner">
+    <div class="brand">
+      <h1 class="brand__title">GlowBudget Journal</h1>
+      <p class="brand__owner">by <strong>Aurore017</strong></p>
+    </div>
 
-<header>
-  <div class="logo">Aurore ✿</div>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="#dashboard">Dashboard</a>
+      <a href="#records">Records</a>
+      <a href="#add">Add</a>
+      <a href="#settings">Settings</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
 
-  <nav>
-    <button data-view="dashboard">Dashboard</button>
-    <button data-view="records">Records</button>
-    <button data-view="add">Add</button>
-    <button data-view="settings">Settings</button>
-    <button data-view="about">About</button>
-  </nav>
-</header>
+  <main id="main" class="site-main" role="main">
+    <!-- Screen-reader-only live regions -->
+    <div class="sr-only" id="livePolite" aria-live="polite" aria-atomic="true"></div>
+    <div class="sr-only" id="liveAssertive" aria-live="assertive" aria-atomic="true"></div>
 
-<main id="main">
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="panel" aria-labelledby="dashTitle">
+      <header class="panel__header">
+        <h2 id="dashTitle">Dashboard</h2>
+        <p class="panel__sub">Your spending at a glance</p>
+      </header>
 
-<section id="dashboard" class="view">
-  <h2>Statistics</h2>
-  <p>Total Records: <span id="stat-count">0</span></p>
-  <p>Total Amount: <span id="stat-sum">0</span></p>
-  <p>Top Category: <span id="stat-top">—</span></p>
-  <p id="cap-status" role="status" aria-live="polite"></p>
-</section>
+      <div class="grid stats">
+        <article class="card sticker">
+          <h3>Total records</h3>
+          <p class="big" id="statTotalRecords">0</p>
+        </article>
 
-<section id="records" class="view hidden">
-  <h2>Transactions</h2>
-  <input id="search" placeholder="Regex search…">
-  <table>
-    <thead>
-      <tr>
-        <th data-sort="date">Date</th>
-        <th data-sort="description">Description</th>
-        <th data-sort="amount">Amount</th>
-        <th>Category</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <tbody id="table-body"></tbody>
-  </table>
-</section>
+        <article class="card sticker">
+          <h3>Total spent</h3>
+          <p class="big" id="statTotalSpent">0</p>
+          <p class="muted" id="statCurrencyHint"></p>
+        </article>
 
-<section id="add" class="view hidden">
-  <h2>Add Transaction</h2>
-  <form id="form">
-    <input id="description" placeholder="Description" required>
-    <input id="amount" placeholder="Amount" required>
-    <input id="category" placeholder="Category" required>
-    <input id="date" type="date" min="1900-01-01" max="2099-12-31" required>
-    <button type="submit">Save</button>
-    <p id="form-error" role="alert"></p>
-  </form>
-</section>
+        <article class="card sticker">
+          <h3>Top category</h3>
+          <p class="big" id="statTopCategory">—</p>
+        </article>
 
-<section id="settings" class="view hidden">
-  <h2>Settings</h2>
-  <label>Spending Cap <input id="cap" type="number"></label>
-  <button id="export">Export JSON</button>
-  <input type="file" id="import">
-</section>
+        <article class="card sticker">
+          <h3>Monthly cap</h3>
+          <p class="big" id="statCapStatus">—</p>
+          <p class="muted" id="capMessage">—</p>
+        </article>
+      </div>
 
-<section id="about" class="view hidden">
-  <h2>About</h2>
-  <p>Student finance tracker built with vanilla HTML, CSS, and JavaScript.</p>
-  <p>GitHub: https://github.com/aurore017</p>
-  <p>Email: a.irakarama1@alustudent.com</p>
-</section>
+      <article class="card scrapbook" aria-labelledby="trendTitle">
+        <div class="chart-head">
+          <h3 id="trendTitle">Last 7 days</h3>
+          <p class="muted">A quick view</p>
+        </div>
 
-</main>
+        <div class="trend" id="trendChart" role="img" aria-label="Bar chart of the last seven days totals"></div>
+        <div class="trend-legend" id="trendLegend"></div>
+      </article>
+    </section>
 
-<script type="module" src="scripts/app.js"></script>
+    <!-- RECORDS -->
+    <section id="records" class="panel" aria-labelledby="recordsTitle">
+      <header class="panel__header">
+        <h2 id="recordsTitle">Records</h2>
+        <p class="panel__sub">Find and manage your records</p>
+      </header>
+
+      <div class="toolbar card scrapbook">
+        <div class="toolbar__group">
+          <label for="searchInput">Search</label>
+          <input id="searchInput" type="text" placeholder="Try: (coffee|tea)" />
+          <div class="row">
+            <label class="chk">
+              <input id="searchCase" type="checkbox" />
+              <span>Case sensitive</span>
+            </label>
+            <span class="hint" id="searchHint" role="status" aria-live="polite">Type to search.</span>
+          </div>
+        </div>
+
+        <div class="toolbar__group">
+          <label for="sortSelect">Sort</label>
+          <select id="sortSelect">
+            <option value="dateDesc">Date (new → old)</option>
+            <option value="dateAsc">Date (old → new)</option>
+            <option value="descAsc">Description (A → Z)</option>
+            <option value="descDesc">Description (Z → A)</option>
+            <option value="amtAsc">Amount (low → high)</option>
+            <option value="amtDesc">Amount (high → low)</option>
+          </select>
+        </div>
+
+        <div class="toolbar__group">
+          <label for="categoryFilter">Category</label>
+          <select id="categoryFilter"></select>
+        </div>
+      </div>
+
+      <!-- Mobile cards -->
+      <div class="records-cards" id="recordsCards" aria-live="polite"></div>
+
+      <!-- Desktop table -->
+      <div class="table-wrap card scrapbook">
+        <table class="table" id="recordsTable">
+          <caption class="sr-only">Finance records table</caption>
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Description</th>
+              <th scope="col">Category</th>
+              <th scope="col" class="num">Amount</th>
+              <th scope="col" class="actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="recordsTbody"></tbody>
+        </table>
+
+        <div class="empty" id="emptyState" hidden>
+          <p>No records yet. Add one below.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADD / EDIT FORM -->
+    <section id="add" class="panel" aria-labelledby="addTitle">
+      <header class="panel__header">
+        <h2 id="addTitle">Add a record</h2>
+        <p class="panel__sub">Keep it simple</p>
+      </header>
+
+      <form class="card form scrapbook" id="recordForm" novalidate>
+        <input type="hidden" id="editId" value="" />
+
+        <div class="field">
+          <label for="description">Description</label>
+          <input id="description" name="description" type="text" autocomplete="off" required
+                 placeholder="e.g. Lunch at cafeteria" />
+          <p class="error" id="errDescription" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="amount">Amount</label>
+            <input id="amount" name="amount" type="text" inputmode="decimal" required
+                   placeholder="e.g. 6500 or 12.50" />
+            <p class="error" id="errAmount" role="status" aria-live="polite"></p>
+          </div>
+
+          <div class="field">
+            <label for="date">Date (YYYY-MM-DD)</label>
+            <input id="date" name="date" type="text" inputmode="numeric" required
+                   placeholder="e.g. 2026-02-20" />
+            <p class="error" id="errDate" role="status" aria-live="polite"></p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="category">Category</label>
+            <input id="category" name="category" type="text" autocomplete="off" required
+                   placeholder="e.g. Food" />
+            <p class="error" id="errCategory" role="status" aria-live="polite"></p>
+          </div>
+
+          <div class="field">
+            <label for="notes">Notes (optional)</label>
+            <input id="notes" name="notes" type="text" autocomplete="off"
+                   placeholder="e.g. coffee coffee" />
+            <p class="error" id="errNotes" role="status" aria-live="polite"></p>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn btn-primary" type="submit" id="saveBtn">Save</button>
+          <button class="btn btn-ghost" type="button" id="resetBtn">Clear</button>
+        </div>
+
+        <p class="muted small">
+          Tip: descriptions can’t start or end with spaces, and double-spaces are cleaned automatically.
+        </p>
+      </form>
+    </section>
+
+    <!-- SETTINGS -->
+    <section id="settings" class="panel" aria-labelledby="settingsTitle">
+      <header class="panel__header">
+        <h2 id="settingsTitle">Settings</h2>
+        <p class="panel__sub">Currency, cap, categories, theme</p>
+      </header>
+
+      <div class="grid settings-grid">
+        <form class="card form scrapbook" id="settingsForm" novalidate>
+          <h3>Theme</h3>
+          <div class="field">
+            <div class="row" style="justify-content:space-between; margin-top:0">
+              <label for="darkMode" style="margin:0">Dark mode</label>
+              <label class="switch">
+                <input id="darkMode" type="checkbox" />
+                <span class="slider" aria-hidden="true"></span>
+              </label>
+            </div>
+            <p class="muted small">Saved automatically.</p>
+          </div>
+
+          <hr class="sep" />
+
+          <h3>Currency</h3>
+
+          <div class="field">
+            <label for="baseCurrency">Display currency</label>
+            <select id="baseCurrency">
+              <option value="RWF">RWF</option>
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
+            </select>
+            <p class="muted small">Rates are manual. Amounts are stored in RWF.</p>
+          </div>
+
+          <div class="grid-2">
+            <div class="field">
+              <label for="rateUSD">1 USD in RWF</label>
+              <input id="rateUSD" type="text" inputmode="decimal" placeholder="e.g. 1300" />
+              <p class="error" id="errRateUSD" role="status" aria-live="polite"></p>
+            </div>
+
+            <div class="field">
+              <label for="rateEUR">1 EUR in RWF</label>
+              <input id="rateEUR" type="text" inputmode="decimal" placeholder="e.g. 1400" />
+              <p class="error" id="errRateEUR" role="status" aria-live="polite"></p>
+            </div>
+          </div>
+
+          <hr class="sep" />
+
+          <h3>Monthly cap</h3>
+          <div class="field">
+            <label for="monthlyCap">Cap amount (RWF)</label>
+            <input id="monthlyCap" type="text" inputmode="decimal" placeholder="e.g. 50000" />
+            <p class="error" id="errMonthlyCap" role="status" aria-live="polite"></p>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Save settings</button>
+          </div>
+        </form>
+
+        <div class="card form scrapbook">
+          <h3>Categories</h3>
+          <p class="muted small">Add or remove categories.</p>
+
+          <div class="row">
+            <label class="sr-only" for="newCategory">New category</label>
+            <input id="newCategory" type="text" placeholder="e.g. Fees" />
+            <button class="btn btn-ghost" type="button" id="addCategoryBtn">Add</button>
+          </div>
+          <p class="error" id="errNewCategory" role="status" aria-live="polite"></p>
+
+          <ul class="chips" id="categoryChips" aria-label="Category list"></ul>
+
+          <hr class="sep" />
+
+          <h3>Import / Export</h3>
+          <div class="row">
+            <button class="btn btn-ghost" type="button" id="exportBtn">Export JSON</button>
+            <label class="btn btn-ghost file-btn" for="importFile">Import JSON</label>
+            <input id="importFile" type="file" accept="application/json" hidden />
+          </div>
+
+          <p class="muted small" id="importExportHint" role="status" aria-live="polite">
+            Export makes a file. Import checks the file before loading.
+          </p>
+
+          <div class="row">
+            <button class="btn btn-danger" type="button" id="resetAllBtn">Reset all data</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="panel" aria-labelledby="aboutTitle">
+      <header class="panel__header">
+        <h2 id="aboutTitle">About</h2>
+        <p class="panel__sub">What this is + contact</p>
+      </header>
+
+      <article class="card prose scrapbook">
+        <p>
+          GlowBudget Journal helps students track spending records, search them quickly, and keep totals in one place.
+        </p>
+        <p>
+          Contact:
+          <a class="pill" href="https://github.com/aurore017" target="_blank" rel="noreferrer">GitHub</a>
+          <a class="pill" href="mailto:a.irakarama1@alustudent.com">Email</a>
+        </p>
+        <p class="muted small">
+          Search tip: try <code>(coffee|tea)</code> or <code>\b(\w+)\s+\1\b</code>.
+        </p>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <p>GlowBudget Journal • Aurore017</p>
+  </footer>
+
+  <script type="module" src="scripts/app.js"></script>
 </body>
 </html>
