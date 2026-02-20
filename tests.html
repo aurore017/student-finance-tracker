@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Regex Tests – Student Finance Tracker</title>
+  <link rel="stylesheet" href="styles/main.css" />
+</head>
+<body>
+
+<main class="tests">
+  <h1>Regex Validation Tests</h1>
+
+  <button id="run-tests">Run Tests</button>
+
+  <ul id="results"></ul>
+</main>
+
+<script type="module">
+import { patterns } from "./scripts/validators.js";
+
+const tests = [
+  { name: "Valid description", value: "Lunch at school", rule: "description", expect: true },
+  { name: "Invalid description (spaces)", value: "  bad  ", rule: "description", expect: false },
+
+  { name: "Valid amount", value: "12.50", rule: "amount", expect: true },
+  { name: "Invalid amount letters", value: "12a", rule: "amount", expect: false },
+
+  { name: "Valid date", value: "2025-09-29", rule: "date", expect: true },
+  { name: "Invalid date", value: "2025-99-99", rule: "date", expect: false },
+
+  { name: "Valid category", value: "School Fees", rule: "category", expect: true },
+  { name: "Invalid category number", value: "Food2", rule: "category", expect: false }
+];
+
+document.getElementById("run-tests").addEventListener("click", () => {
+  const list = document.getElementById("results");
+  list.innerHTML = "";
+
+  tests.forEach(t => {
+    const passed = patterns[t.rule].test(t.value) === t.expect;
+
+    const li = document.createElement("li");
+    li.textContent = `${passed ? "✅" : "❌"} ${t.name}`;
+    li.className = passed ? "pass" : "fail";
+
+    list.appendChild(li);
+  });
+});
+</script>
+
+</body>
+</html>
