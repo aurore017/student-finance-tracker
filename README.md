@@ -123,13 +123,6 @@ to load sample records.
 
 ---
 
-## Live demo
-
-(Add after deploying with GitHub Pages)
-
-https://aurore017.github.io/REPO_NAME
-
----
 
 ## Contact
 
